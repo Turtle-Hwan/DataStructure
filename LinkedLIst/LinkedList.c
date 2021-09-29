@@ -62,9 +62,34 @@ int Search(int inputData) //원하는 inputData 값이 있으면 1 반환 | 없�
 
 int Delete(int inputData) //원하는 inputData 값이 있으면 삭제하고 1 반환 | 없으면 삭제 안되고 0 반환
 {
-	if (Search(inputData)) {
+	
+	//inputData 존재 여부 : exist
+	int exist = 0;
+	int idx = 1;
+	
+	struct NODE *searchNode = headP;	//탐색하기 위한 노드 생성
+	while (1) { 
+
+		if (searchNode->next == NULL) {	//만약 다음 주소가 없다면(NULL), 종료
+			break;
+		}
+		else if (searchNode->next->data == inputData) {	//data 비교		
+			//해당 노드(searchNode 다음 노드) 삭제
+			free(searchNode->next);
+			searchNode->next = searchNode->next->next;
+			exist = 1;
+			break;
+		}
+		else {
+			searchNode = searchNode->next;	//다음 주소가 있다면, 다음 주소로 이동
+			idx += 1;
+		}
+	}
+	
+	if (exist) {
 		//노드 삭제 코드
 		
+		printf("%d 번째 노드인 %d 가 Delete 되었습니다!", idx, inputData);
 		return 1;
 	}
 	else {
