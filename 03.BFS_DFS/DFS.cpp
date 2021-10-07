@@ -130,6 +130,13 @@ void DFS (struct NODE* root) {	// dfs 규칙대로 노드 하나씩 print
 			cursor = stack.top();
 		}
 	}
+	
+	/* 목표한 출력 결과 : 
+	10 ->  5 ->  4
+	         ->  3
+	   -> 20 
+	         -> 15
+			      */
 }
 
 
