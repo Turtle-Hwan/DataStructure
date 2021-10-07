@@ -29,7 +29,9 @@ git push 시 github id / password 입력이 계속 뜨는데, 미리 저장해�
 
 4. `git config credential.Password {personal access token 값}` 명령어를 입력하고, config 파일 확인한다.  
 
-  [주의!] 여기서 password가 아니라 대문자 P 임에 주의.(대문자로 해야 잘 되더라..)
+    [주의1] 여기서 password가 아니라 대문자 P 임에 주의.(대문자로 해야 잘 되더라..)
+	
+	[주의2] `git config (--global | --local)` 등을 추가하면 제대로 추가가 안 되는 것 조심.
 
 5. `git push` 시 아이디 / 비밀번호 확인 창 없이 잘 되는지 확인!! 끝!!  
 
