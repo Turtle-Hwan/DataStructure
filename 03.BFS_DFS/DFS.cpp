@@ -101,7 +101,9 @@ void DFS (struct NODE* root) {	// dfs 규칙대로 노드 하나씩 print
 	while (stack.isEmpty() == false) { 
 		//스택 맨 위 노드의 자식 노드 확인. 자식 없으면 스택 맨 위 노드 꺼내기.
 		
-		if (cursor->left == NULL && cursor->right == NULL) printf(" > end\n");
+		if (cursor->left == NULL && cursor->right == NULL) {
+			//printf(" > end\n      ");
+		}
 		
 		if (cursor->left != NULL && cursor->left->visit == false) {
 			//왼쪽 자식 노드 스택에 집어넣기
@@ -110,7 +112,7 @@ void DFS (struct NODE* root) {	// dfs 규칙대로 노드 하나씩 print
 			cursor = cursor->left;
 			stack.push(cursor);
 			cursor->visit = true;
-			printf("| %d |", cursor->data);
+			printf("| %2d |", cursor->data);
 		}
 		else if (cursor->right != NULL && cursor->right->visit == false) {
 			//오른쪽 자식 노드 스택에 집어넣기
@@ -119,16 +121,84 @@ void DFS (struct NODE* root) {	// dfs 규칙대로 노드 하나씩 print
 			cursor = cursor->right;
 			stack.push(cursor);
 			cursor->visit = true;
-			printf("| %d |", cursor->data);
+			printf("| %2d |", cursor->data);
 		}
 		else {
 			//자식노드 없으므로 스택에서 꺼내기.
-			printf("%d", stack.StackP);
+			printf(" back ");
 			stack.pop();
 			cursor = stack.top();
-			
 		}
 	}
+}
+
+
+class QueueClass {
+	struct NODE* Queue[MAX_LEN];
+	int head = 0;	//큐는 head에서 pop 되고, tail에서 push된다.
+	int tail = 0;
+	bool full = false;
+	
+public:
+	void push(struct NODE* data) {
+		if (head == tail && full == true) {
+		}
+		else {
+			Queue[tail] = data;
+			tail += 1;
+			
+			if (tail == MAX_LEN) {tail = 0;}
+			if (tail == head) {full = true;}
+		}
+	}
+
+	void pop() {
+		if (head == tail && full == false) {
+		}
+		else {
+			int popDataIndex = head;
+			head += 1;
+			if (head == MAX_LEN) {
+				head = 0;
+			}
+		}
+	}
+	
+	struct NODE* top() {
+		return Queue[head];
+	}
+	
+	bool isEmpty() {
+		if (head == tail && full == false) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+};
+
+void BFS(struct NODE *root) {
+	struct NODE* cursor = root;
+	
+	QueueClass queue;
+	queue.push(cursor);
+	
+	while(queue.isEmpty() == false) {
+		//queue에서 하나 pop 하고, 출력하고, 꺼낸 노드의 자식들 push하기.		
+		queue.pop();
+		printf("| %2d |\n", cursor->data);
+		if (cursor->left != NULL) {
+			queue.push(cursor->left);
+		}
+		if (cursor->right != NULL) {
+			queue.push(cursor->right);
+		}
+		
+		cursor = queue.top();
+	}
+	
+	
 }
 
 int main() {
@@ -137,7 +207,7 @@ int main() {
 
 	std::string command;
 	while(1) {
-		printf("\n\n print / dfs / q(quit) 입력\n");
+		printf("\n\n print / dfs / bfs / q(quit) 입력\n");
 		std::cin >> command;
 
 		if (!command.compare("print")) {
@@ -145,6 +215,9 @@ int main() {
 		}
 		else if (!command.compare("dfs")) {
 			DFS(rootP);
+		}
+		else if (!command.compare("bfs")) {
+			BFS(rootP);
 		}
 		else if (!command.compare("q")) {
 			exit(0);
